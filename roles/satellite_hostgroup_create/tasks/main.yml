@@ -1,0 +1,25 @@
+- name: Check if hostgroup {{ title }} exists already
+  command: >
+    hammer --output json -u "{{ user }}" -p "{{ password}}"
+    hostgroup info
+    --title "{{ title }}"
+  register: hg_output
+  ignore_errors: True
+  changed_when: False
+  failed_when: hg_output|failed and not 'not found' in hg_output.stderr
+
+- set_fact:
+    hostgroup_id: "{{ (hg_output.stdout|from_json)['Id'] }}"
+  when: hg_output|succeeded
+
+- name: Create hostgroup {{ name }}
+  command: >
+    hammer --output json -u "{{ user }}" -p "{{ password }}"
+    hostgroup create
+    --organization "{{ organization }}"
+    --name "{{ name }}"
+    --domain "{{ domain }}"
+    --subnet "{{ subnet }}"
+  register: hg_output
+  when: hostgroup_id is undefined
+
