@@ -1,0 +1,3 @@
+---
+discovery_provision_poll_retries: 30
+discovery_provision_poll_delay: 120

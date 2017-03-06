@@ -1,0 +1,22 @@
+- name: Check if {{ name }} activation-key exists already
+  command: >
+    hammer --output json -u "{{ user }}" -p "{{ password}}"
+    activation-key info
+    --organization "{{ organization }}"
+    --name "{{ name }}"
+  register: ak_output
+  ignore_errors: True
+  changed_when: False
+  failed_when: ak_output|failed and not 'not found' in ak_output.stderr
+
+- name: Create {{ name }} hostgroup activation key
+  command: >
+    hammer --output json -u "{{ user }}" -p "{{ password }}"
+    activation-key create
+    --organization "{{ organization }}"
+    --name "{{ name }}"
+    --lifecycle-environment "{{ lifecycle_environment}}"
+    --content-view "{{ content_view }}"
+  register: ak_output
+  when: ak_output|failed and 'not found' in ak_output.stderr
+
