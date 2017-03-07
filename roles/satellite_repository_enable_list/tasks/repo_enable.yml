@@ -1,6 +1,6 @@
 - name: Check if repository {{ repo.full_name }} is enabled already
   command: >
-    hammer --output json -u "{{ user }}" -p "{{ password}}"
+    hammer --output json -u "{{ username }}" -p "{{ password}}"
     repository info
     --organization "{{ organization }}"
     --product "{{ repo.product }}"
@@ -13,7 +13,7 @@
 
 - name: Enable repository {{ repo.name }}
   command: >
-    hammer --output json -u "{{ user }}" -p "{{ password}}"
+    hammer --output json -u "{{ username }}" -p "{{ password}}"
     repository-set enable
     --organization "{{ organization }}"
     --product "{{ repo.product }}"

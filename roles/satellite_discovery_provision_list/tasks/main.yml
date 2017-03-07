@@ -1,6 +1,6 @@
 - name: Check for discovered hosts
   command: >
-    hammer --output json -u "{{ user }}" -p "{{ password}}"
+    hammer --output json -u "{{ username }}" -p "{{ password}}"
     discovery info
     --id "{{ item.id }}"
   register: dh_output
@@ -16,7 +16,7 @@
 
 - name: Provision discovered hosts
   command: >
-    hammer --output json -u "{{ user }}" -p "{{ password }}"
+    hammer --output json -u "{{ username }}" -p "{{ password }}"
     discovery provision
     --id "{{ item.id }}"
     --new-name "{{ item.new_name }}"
@@ -30,7 +30,7 @@
 
 - name: Check on status of all hosts until they fully provisioned
   command: >
-    hammer --output json -u "{{ user }}" -p "{{ password}}"
+    hammer --output json -u "{{ username }}" -p "{{ password}}"
     host info
     --id "{{ item.id }}"
   register: host_status

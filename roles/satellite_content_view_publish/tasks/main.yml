@@ -1,6 +1,6 @@
 - name: Get version of content-view {{ name }}
   command: >
-    hammer --output json -u "{{ user }}" -p "{{ password}}"
+    hammer --output json -u "{{ username }}" -p "{{ password}}"
     content-view info
     --organization "{{ organization }}"
     --name "{{ name }}"
@@ -22,7 +22,7 @@
 
 - name: Publish content-view {{ name }}
   command: >
-    hammer --output json -u "{{ user }}" -p "{{ password}}"
+    hammer --output json -u "{{ username }}" -p "{{ password}}"
     content-view publish
     --organization "{{ organization }}"
     --name "{{ name }}"

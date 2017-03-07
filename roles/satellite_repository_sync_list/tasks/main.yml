@@ -3,7 +3,7 @@
 #fire and forget all the repo synchronization tasks (but not --async)
 - name: "Synchronize repositories"
   command: >
-    hammer -u "{{ user }}" -p "{{ password}}"
+    hammer -u "{{ username }}" -p "{{ password}}"
     repository synchronize
     --organization "{{ organization }}"
     --product "{{ item.product }}"
@@ -26,7 +26,7 @@
 
 - name: "Synchronize repositories - RETRY 1"
   command: >
-    hammer -u "{{ user }}" -p "{{ password}}"
+    hammer -u "{{ username }}" -p "{{ password}}"
     repository synchronize
     --organization "{{ organization }}"
     --product "{{ item.product }}"

@@ -1,6 +1,6 @@
 - name: Check if {{ name }} activation-key exists already
   command: >
-    hammer --output json -u "{{ user }}" -p "{{ password}}"
+    hammer --output json -u "{{ username }}" -p "{{ password}}"
     activation-key info
     --organization "{{ organization }}"
     --name "{{ name }}"
@@ -11,7 +11,7 @@
 
 - name: Create {{ name }} hostgroup activation key
   command: >
-    hammer --output json -u "{{ user }}" -p "{{ password }}"
+    hammer --output json -u "{{ username }}" -p "{{ password }}"
     activation-key create
     --organization "{{ organization }}"
     --name "{{ name }}"

@@ -1,6 +1,6 @@
 - name: Get proxy for new hostgroup content-source, puppet-ca-proxy, puppet-proxy
   command: >
-    hammer --output json -u "{{ user }}" -p "{{ password}}"
+    hammer --output json -u "{{ username }}" -p "{{ password}}"
     proxy info
     --name "{{ proxy }}"
   register: proxy_output
@@ -13,7 +13,7 @@
 
 - name: Get os for hostgroup
   command: >
-    hammer --output json -u "{{ user }}" -p "{{ password}}"
+    hammer --output json -u "{{ username }}" -p "{{ password}}"
     os info
     --title "{{ operating_system }}"
   register: os_output
@@ -26,7 +26,7 @@
 
 - name: Get hostgroup ID of parent {{ parent_title }}
   command: >
-    hammer --output json -u "{{ user }}" -p "{{ password}}"
+    hammer --output json -u "{{ username }}" -p "{{ password}}"
     hostgroup info
     --title "{{ parent_title }}"
   register: parent_output
@@ -39,7 +39,7 @@
 
 - name: Check if hostgroup {{ title }} exists already
   command: >
-    hammer --output json -u "{{ user }}" -p "{{ password}}"
+    hammer --output json -u "{{ username }}" -p "{{ password}}"
     hostgroup info
     --title "{{ title }}"
   register: hg_output
@@ -49,7 +49,7 @@
 
 - name: Create hostgroup {{ name }}
   command: >
-    hammer --output json -u "{{ user }}" -p "{{ password }}"
+    hammer --output json -u "{{ username }}" -p "{{ password }}"
     hostgroup create
     --organization "{{ organization }}"
     --name "{{ name }}"

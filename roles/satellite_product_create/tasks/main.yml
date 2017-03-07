@@ -1,6 +1,6 @@
 - name: Check if product {{ name }} exists already
   command: >
-    hammer --output json -u "{{ user }}" -p "{{ password }}"
+    hammer --output json -u "{{ username }}" -p "{{ password }}"
     product info --name "{{ name }}" --organization "{{ organization }}"
   register: product_output
   ignore_errors: True
@@ -9,6 +9,6 @@
 
 - name: Create product {{ name }}
   command: >
-    hammer --output json -u "{{ user }}" -p "{{ password }}"
+    hammer --output json -u "{{ username }}" -p "{{ password }}"
     product create --name "{{ name }}" --organization "{{ organization }}"
   when: product_output|failed and 'not found' in product_output.stderr
