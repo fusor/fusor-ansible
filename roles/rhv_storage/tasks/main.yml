@@ -28,7 +28,9 @@
                                             --storage-address='{{ data_storage_address }}'
                                             --storage-type='{{ storage_type }}'
                                             --domain-type='data'
+  register: data_domain_output
   retries: 5
+  until: data_domain_output|succeeded
   delay: 30
   tags:
     - config
@@ -45,7 +47,9 @@
                                             --storage-type='{{ storage_type }}'
                                             --domain-type='export'
   when: create_export_domain
+  register: export_domain_output
   retries: 5
   delay: 30
+  until: export_domain_output|succeeded
   tags:
     - config

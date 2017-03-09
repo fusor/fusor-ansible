@@ -28,7 +28,9 @@
                                           --mac-address-range='{{ mac_address_range }}'
                                           --mac-pool-name='{{ mac_pool_name }}'
                                           --comp-version='{{ compatibility_version }}'
+  register: create_datacenter_output
   retries: 5
+  until: create_datacenter_output|succeeded
   delay: 60
   tags:
     - config

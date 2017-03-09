@@ -44,3 +44,7 @@
   delay: "{{ discovery_provision_poll_delay }}"
   when: "{{ item.id in discovered_host_ids }}"
   with_items: "{{ discovered_hosts }}"
+
+- name: wait for SSH to respond on host
+  local_action: wait_for port=22 host={{ item.fqdn }} delay=60 timeout={{ ssh_timeout }}
+  with_items: "{{ discovered_hosts }}"

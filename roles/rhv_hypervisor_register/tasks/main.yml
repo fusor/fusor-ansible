@@ -27,7 +27,9 @@
                                       --host='{{ inventory_hostname }}'
                                       --host-password='{{ root_password }}'
                                       --cluster='{{ cluster_name }}'
+  register: register_hypervisor_output
   retries: 5
+  until: register_hypervisor_output|succeeded
   delay: 30
   delegate_to: '{{ script_runner }}'
   tags:
