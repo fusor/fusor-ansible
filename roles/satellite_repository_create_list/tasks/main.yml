@@ -1,0 +1,2 @@
+- include: repo_create.yml repo={{item}}
+  with_items:  "{{ repositories }}"

@@ -1,0 +1,23 @@
+---
+- name: Check if compute resource exists already
+  command: >
+    hammer --output json -u "{{ username }}" -p "{{ password}}"
+    compute-resource info --name "{{ name }}"
+  register: cr_output
+  ignore_errors: True
+  changed_when: False
+  failed_when: cr_output|failed and not 'not found' in cr_output.stderr
+
+- name: Create compute resource
+  command: >
+    hammer --output json -u "{{ username }}" -p "{{ password }}"
+    compute-resource create
+    --name "{{ name }}"
+    --organizations "{{ organizations }}"
+    --locations "{{ locations }}"
+    --url "{{ url }}"
+    --provider "{{ provider }}"
+    --user "{{ resource_user }}"
+    --password "{{ resource_password}}"
+  when: cr_output|failed and 'not found' in cr_output.stderr
+

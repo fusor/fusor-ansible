@@ -1,0 +1,4 @@
+---
+repository_sync_max_duration: 86400
+repository_sync_poll_retries: 300
+repository_sync_poll_delay: 300

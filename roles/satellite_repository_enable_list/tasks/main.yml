@@ -1,0 +1,2 @@
+- include: repo_enable.yml repo={{item}}
+  with_items:  "{{ repositories }}"

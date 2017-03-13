@@ -1,0 +1,25 @@
+- name: Check if repository {{ repo.name }} exists already
+  command: >
+    hammer --output json -u "{{ username }}" -p "{{ password}}"
+    repository info
+    --organization "{{ organization }}"
+    --product "{{ repo.product }}"
+    --name "{{ repo.name }}"
+  register: repo_output
+  ignore_errors: True
+  changed_when: False
+  failed_when: repo_output|failed and not 'not found' in repo_output.stderr
+
+
+- name: Create repository {{ repo.name }}
+  command: >
+    hammer --output json -u "{{ username }}" -p "{{ password}}"
+    repository create
+    --organization "{{ organization }}"
+    --product "{{ repo.product }}"
+    --name "{{ repo.name }}"
+    --label "{{ repo.label}}"
+    --content-type "{{ repo.content_type }}"
+    {% if repo.url is defined %}--publish-via-http true --url "{{ repo.url }}"{% endif %}
+    {% if repo.upstream_name is defined %}--docker-upstream-name "{{ repo.upstream_name }}"{% endif %}
+  when: repo_output|failed and 'not found' in repo_output.stderr

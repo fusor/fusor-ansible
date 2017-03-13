@@ -1,0 +1,7 @@
+- name: Update parameter {{ name }} on hostgroup {{ hostgroup_title }}
+  command: >
+    hammer --output json -u "{{ username }}" -p "{{ password }}"
+    hostgroup set-parameter
+    --hostgroup-title "{{ hostgroup_title }}"
+    --name "{{ name }}"
+    --value "{{ value }}"

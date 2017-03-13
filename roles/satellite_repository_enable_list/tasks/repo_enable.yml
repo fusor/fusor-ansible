@@ -1,0 +1,23 @@
+- name: Check if repository {{ repo.full_name }} is enabled already
+  command: >
+    hammer --output json -u "{{ username }}" -p "{{ password}}"
+    repository info
+    --organization "{{ organization }}"
+    --product "{{ repo.product }}"
+    --name "{{ repo.full_name }}"
+  register: repo_output
+  ignore_errors: True
+  changed_when: False
+  failed_when: repo_output|failed and not 'not found' in repo_output.stderr
+
+
+- name: Enable repository {{ repo.name }}
+  command: >
+    hammer --output json -u "{{ username }}" -p "{{ password}}"
+    repository-set enable
+    --organization "{{ organization }}"
+    --product "{{ repo.product }}"
+    {% if repo.releasever is defined %}--releasever "{{ repo.releasever }}"{% endif %}
+    --basearch "{{ repo.basearch}}"
+    --name "{{ repo.name }}"
+  when: repo_output|failed and 'not found' in repo_output.stderr
