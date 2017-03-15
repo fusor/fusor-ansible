@@ -1,0 +1,45 @@
+- name: Get os for hostgroup
+  command: >
+    hammer --output json -u "{{ username }}" -p "{{ password}}"
+    os info
+    --title "{{ operating_system }}"
+  register: os_output
+  changed_when: False
+  when: operating_system is defined
+
+- set_fact:
+    medium_id: "{{ (os_output.stdout|from_json)['Installation media'][0]['id']}}"
+  when: operating_system is defined
+
+
+- name: Check if host {{ name }} exists already
+  command: >
+    hammer --output json -u "{{ username }}" -p "{{ password}}"
+    host info
+    --name "{{ name }}"
+  register: h_output
+  ignore_errors: True
+  changed_when: False
+  failed_when: h_output|failed and not 'not found' in h_output.stderr
+
+
+- name: Create host {{ name }}
+  command: >
+    hammer --output json -u "{{ username }}" -p "{{ password }}"
+    host create
+    --organization "{{ organization }}"
+    --name "{{ name }}"
+    --location "{{ location }}"
+    --environment "{{ environment_name }}"
+    --hostgroup "{{ hostgroup }}"
+    --domain "{{ domain }}"
+    --subnet "{{ subnet }}"
+    --architecture "{{ architecture }}"
+    --operatingsystem "{{ operating_system }}"
+    --medium-id "{{ medium_id }}"
+    --partition-table "{{ partition_table }}"
+    --root-pass "{{ root_pass }}"
+    --mac "{{ mac }}"
+
+  when: h_output|failed and 'not found' in h_output.stderr
+
